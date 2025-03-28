@@ -1,0 +1,17 @@
+# binary
+
+cub3d
+*.a
+*.so
+*.lib
+*.dll
+*.out
+*.app
+*.exe
+*.o
+
+# editor files
+
+*.swp
+*.swo
+./vscode
