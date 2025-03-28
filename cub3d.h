@@ -6,7 +6,7 @@
 /*   By: joleksia <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 09:48:22 by joleksia          #+#    #+#             */
-/*   Updated: 2025/03/28 10:17:57 by joleksia         ###   ########.fr       */
+/*   Updated: 2025/03/28 10:54:00 by joleksia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,14 @@ typedef struct s_game	t_game;
 
 int	cub_init(t_game *game);
 int	cub_run(t_game *game);
+int	cub_update(t_game *game);
 int	cub_quit(t_game *game);
+
+/* ./cub3d-gl.c */
+
+int	cub_getpix(t_game *game, int x, int y);
+int	cub_setpix(t_game *game, int x, int y, unsigned int color);
+int	cub_clear(t_game *game, unsigned int color);
+int	cub_display(t_game *game);
 
 #endif

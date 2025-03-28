@@ -1,7 +1,7 @@
 CC		= cc
 CFLAGS	= -Wall -Wextra -Werror -std=c99
 LFLAGS	= -lX11 -lXext -lz
-SRC		= ./cub3d.c
+SRC		= ./cub3d.c ./cub3d-gl.c
 OBJ		= $(SRC:.c=.o)
 LIBFT	= ./libft/libft.a
 MLX		= ./minilibx/libmlx.a
