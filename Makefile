@@ -1,7 +1,13 @@
 CC		= cc
 CFLAGS	= -Wall -Wextra -Werror -std=c99
-LFLAGS	= -lX11 -lXext -lz
-SRC		= ./cub3d.c ./cub3d-gl.c ./cub3d-math0.c
+LFLAGS	= -lX11 -lXext -lz -lm
+SRC		= 	./cub3d.c			\
+			./cub3d-gl.c		\
+			./cub3d-math0.c		\
+			./cub3d-player0.c	\
+			./cub3d-player1.c	\
+			./cub3d-input.c		\
+			./cub3d-minimap.c
 OBJ		= $(SRC:.c=.o)
 LIBFT	= ./libft/libft.a
 MLX		= ./minilibx/libmlx.a
@@ -43,7 +49,7 @@ fclean: clean
 
 .PHONY: release debug
 
-release: CFLAGS += -DRELEASE -s -O3
+release: CFLAGS += -DRELEASE -O3
 release: all
 
 debug: CFLAGS += -DDEBUG -ggdb -g3 -O0

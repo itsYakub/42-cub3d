@@ -6,7 +6,7 @@
 /*   By: joleksia <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 09:48:48 by joleksia          #+#    #+#             */
-/*   Updated: 2025/03/30 06:50:43 by joleksia         ###   ########.fr       */
+/*   Updated: 2025/03/30 11:13:10 by joleksia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ int	main(int ac, char **av)
 	printf("info: map loaded successfully\n");
 	if (!cub_init(&game))
 		return (1);
+	cub_player(&game);
 	cub_run(&game);
 	return (0);
 }
@@ -33,25 +34,27 @@ int	cub_init(t_game *game)
 	if (!game)
 		return (!printf("error: null pointer\n"));
 	ft_memset(&game->s_win, 0, sizeof(game->s_win));
+	ft_memset(&game->input, 0, sizeof(game->input));
 	game->s_win.mlx = mlx_init();
 	if (!game->s_win.mlx)
 		return (!printf("error: cannot init mlx\n"));
 	game->s_win.win = mlx_new_window(
 			game->s_win.mlx,
 			CUB_WIN_W, CUB_WIN_H,
-			"42warsaw - cub3d"
-			);
+			"42warsaw - cub3d");
+	if (!game->s_win.win)
+		return (!printf("error: cannot create window\n"));
 	game->s_win.img = mlx_new_image(game->s_win.mlx, CUB_WIN_W, CUB_WIN_H);
+	if (!game->s_win.img)
+		return (!printf("error: cannot create image\n"));
 	game->s_win.fb = mlx_get_data_addr(
 			game->s_win.img,
 			&game->s_win.fb_bits,
 			&game->s_win.fb_stride,
-			&game->s_win.fb_endian
-			);
+			&game->s_win.fb_endian);
 	printf(
 		"info: init success | w: %d | h: %d | t: %s\n",
-		CUB_WIN_W, CUB_WIN_H, "42warsaw - cub3d"
-		);
+		CUB_WIN_W, CUB_WIN_H, "42warsaw - cub3d");
 	return (1);
 }
 
@@ -59,6 +62,8 @@ int	cub_run(t_game *game)
 {
 	if (!game)
 		return (!printf("error: null pointer\n"));
+	mlx_hook(game->s_win.win, 2, 1L << 0, cub_input_down, game);
+	mlx_hook(game->s_win.win, 3, 1L << 1, cub_input_up, game);
 	mlx_hook(game->s_win.win, 17, 0, cub_quit, game);
 	mlx_loop_hook(game->s_win.mlx, cub_update, game);
 	mlx_loop(game->s_win.mlx);
@@ -79,6 +84,7 @@ int	cub_update(t_game *game)
 	cub_clear(game, 0x00000000);
 	cub_clear_region(game, cub_col_int(game->map->map_col_f), rfloor);
 	cub_clear_region(game, cub_col_int(game->map->map_col_c), rceil);
+	cub_p_update(game);
 	cub_display(game);
 	return (1);
 }

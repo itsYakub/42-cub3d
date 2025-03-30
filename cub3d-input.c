@@ -1,37 +1,41 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cub3d-math0.c                                      :+:      :+:    :+:   */
+/*   cub3d-input.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: joleksia <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/30 06:27:09 by joleksia          #+#    #+#             */
-/*   Updated: 2025/03/30 10:34:10 by joleksia         ###   ########.fr       */
+/*   Created: 2025/03/30 07:30:11 by joleksia          #+#    #+#             */
+/*   Updated: 2025/03/30 11:11:35 by joleksia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-int	cub_min(int a, int b)
+#include <X11/keysymdef.h>
+
+int	cub_input_down(int key, t_game *game)
 {
-	if (a < b)
-		return (a);
-	return (b);
+	if (key == XK_Escape)
+		cub_quit(game);
+	if (key < 1024)
+		game->input[key] = 1;
+	return (1);
 }
 
-int	cub_max(int a, int b)
+int	cub_input_up(int key, t_game *game)
 {
-	if (a > b)
-		return (a);
-	return (b);
+	if (key < 1024)
+		game->input[key] = 0;
+	return (1);
 }
 
-int	cub_col_int(t_vec4i col)
+int cub_key_down(t_game *game, int key)
 {
-	return (
-		col[3] << 8 * 3
-		| col[0] << 8 * 2
-		| col[1] << 8 * 1
-		| col[2] << 8 * 0
-	);
+	return (game->input[key]);
+}
+
+int cub_key_up(t_game *game, int key)
+{
+	return (!game->input[key]);
 }

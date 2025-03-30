@@ -6,7 +6,7 @@
 /*   By: joleksia <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 09:48:22 by joleksia          #+#    #+#             */
-/*   Updated: 2025/03/30 06:51:17 by joleksia         ###   ########.fr       */
+/*   Updated: 2025/03/30 11:04:47 by joleksia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,19 +32,35 @@
  * */
 
 # ifndef CUB_WIN_W
-#  define CUB_WIN_W 800
+#  define CUB_WIN_W 1024
 # endif
 # ifndef CUB_WIN_H
-#  define CUB_WIN_H 600
+#  define CUB_WIN_H 768
+# endif
+# ifndef CUB_FAR_PLANE
+#  define CUB_FAR_PLANE 64
 # endif
 
 /*	SECTION:
  *		Typedefs
  * */
 
+struct					s_game;
+struct					s_player;
+
+struct s_player
+{
+	struct s_game	*game;
+	t_vec2			pos;
+	float			rot;
+	float			fov;
+};
+
 struct s_game
 {
-	t_map	*map;
+	struct s_player	player;
+	unsigned int	input[1024];
+	t_map			*map;
 	struct
 	{
 		t_xvar		*mlx;
@@ -58,6 +74,7 @@ struct s_game
 };
 
 typedef struct s_game	t_game;
+typedef struct s_player	t_player;
 
 /*	SECTION:
  *		Function declarations
@@ -69,6 +86,13 @@ int	cub_init(t_game *game);
 int	cub_run(t_game *game);
 int	cub_update(t_game *game);
 int	cub_quit(t_game *game);
+
+/* ./cub3d-input.c */
+
+int	cub_input_down(int key, t_game *game);
+int	cub_input_up(int key, t_game *game);
+int cub_key_down(t_game *game, int key);
+int cub_key_up(t_game *game, int key);
 
 /* ./cub3d-gl.c */
 
@@ -83,5 +107,17 @@ int	cub_display(t_game *game);
 int	cub_min(int a, int b);
 int	cub_max(int a, int b);
 int	cub_col_int(t_vec4i col);
+
+/* ./cub3d-player0.c ./cub3d-player1.c */
+
+int	cub_player(t_game *game);
+int	cub_p_update(t_game *game);
+int	cub_p_render(t_game *game);
+int	cub_p_rotate(t_game *game);
+int	cub_p_move(t_game *game);
+
+/* ./cub3d-minimap.c */
+
+int	cub_minimap(t_game *game, t_vec2i pos);
 
 #endif
