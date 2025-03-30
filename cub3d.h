@@ -6,7 +6,7 @@
 /*   By: joleksia <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 09:48:22 by joleksia          #+#    #+#             */
-/*   Updated: 2025/03/28 10:54:00 by joleksia         ###   ########.fr       */
+/*   Updated: 2025/03/30 06:51:17 by joleksia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,13 @@ int	cub_quit(t_game *game);
 int	cub_getpix(t_game *game, int x, int y);
 int	cub_setpix(t_game *game, int x, int y, unsigned int color);
 int	cub_clear(t_game *game, unsigned int color);
+int	cub_clear_region(t_game *game, unsigned int color, const t_vec4i region);
 int	cub_display(t_game *game);
+
+/* ./cub3d-math0.c */
+
+int	cub_min(int a, int b);
+int	cub_max(int a, int b);
+int	cub_col_int(t_vec4i col);
 
 #endif

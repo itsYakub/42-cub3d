@@ -1,14 +1,14 @@
 CC		= cc
 CFLAGS	= -Wall -Wextra -Werror -std=c99
 LFLAGS	= -lX11 -lXext -lz
-SRC		= ./cub3d.c ./cub3d-gl.c
+SRC		= ./cub3d.c ./cub3d-gl.c ./cub3d-math0.c
 OBJ		= $(SRC:.c=.o)
 LIBFT	= ./libft/libft.a
 MLX		= ./minilibx/libmlx.a
 PARSER	= ./parser/libpar.a
 NAME	= ./cub3d
 
-all: gitmodules $(NAME)
+all: $(NAME)
 
 $(NAME) : $(OBJ) $(MLX) $(PARSER) $(LIBFT)
 	$(CC) $(CFLAGS) $^ -o $@ $(LFLAGS)
@@ -53,3 +53,4 @@ debug: all
 
 gitmodules: .gitmodules
 	git submodule update --init
+	git submodule foreach git pull origin HEAD

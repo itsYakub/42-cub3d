@@ -1,0 +1,8 @@
+parser:
+- [ ] check if we use macro functions (if so, replace them);
+
+renderer:
+- [ ] render floor and ceiling;
+- [ ] render the map itself;
+- [ ] render the textures as the walls;
+- [ ] render a 2D map at the corner of the screen;

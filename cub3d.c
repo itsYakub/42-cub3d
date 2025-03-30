@@ -6,7 +6,7 @@
 /*   By: joleksia <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 09:48:48 by joleksia          #+#    #+#             */
-/*   Updated: 2025/03/28 10:48:38 by joleksia         ###   ########.fr       */
+/*   Updated: 2025/03/30 06:50:43 by joleksia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,9 +67,18 @@ int	cub_run(t_game *game)
 
 int	cub_update(t_game *game)
 {
+	const t_vec4i	rfloor = {
+		0, CUB_WIN_H / 2, CUB_WIN_W, CUB_WIN_H
+	};
+	const t_vec4i	rceil = {
+		0, 0, CUB_WIN_W, CUB_WIN_H / 2
+	};
+
 	if (!game)
 		return (!printf("error: null pointer\n"));
-	cub_clear(game, 0x00f54242);
+	cub_clear(game, 0x00000000);
+	cub_clear_region(game, cub_col_int(game->map->map_col_f), rfloor);
+	cub_clear_region(game, cub_col_int(game->map->map_col_c), rceil);
 	cub_display(game);
 	return (1);
 }
