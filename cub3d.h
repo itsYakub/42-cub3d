@@ -6,7 +6,7 @@
 /*   By: joleksia <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 09:48:22 by joleksia          #+#    #+#             */
-/*   Updated: 2025/03/30 11:04:47 by joleksia         ###   ########.fr       */
+/*   Updated: 2025/03/30 11:34:49 by joleksia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 # include <stdlib.h>
 # include <stddef.h>
 # include <unistd.h>
+# include <X11/keysymdef.h>
 # include "parser/parser.h"
 # include "libft/libft.h"
 # include "minilibx/mlx.h"
@@ -59,7 +60,7 @@ struct s_player
 struct s_game
 {
 	struct s_player	player;
-	unsigned int	input[1024];
+	unsigned int	input[65536];
 	t_map			*map;
 	struct
 	{
@@ -115,6 +116,7 @@ int	cub_p_update(t_game *game);
 int	cub_p_render(t_game *game);
 int	cub_p_rotate(t_game *game);
 int	cub_p_move(t_game *game);
+int	cub_p_strafe(t_game *game);
 
 /* ./cub3d-minimap.c */
 

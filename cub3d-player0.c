@@ -6,7 +6,7 @@
 /*   By: joleksia <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/30 07:26:10 by joleksia          #+#    #+#             */
-/*   Updated: 2025/03/30 11:16:07 by joleksia         ###   ########.fr       */
+/*   Updated: 2025/03/30 11:35:45 by joleksia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,7 @@ int	cub_p_update(t_game *game)
 	pos[1] = (int) game->player.pos[1];
 	cub_p_rotate(game);
 	cub_p_move(game);
+	cub_p_strafe(game);
 	cub_p_render(game);
 	cub_minimap(game, (t_vec2i){8, 8});
 	return (1);
