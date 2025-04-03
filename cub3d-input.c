@@ -6,7 +6,7 @@
 /*   By: joleksia <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/30 07:30:11 by joleksia          #+#    #+#             */
-/*   Updated: 2025/03/30 11:37:55 by joleksia         ###   ########.fr       */
+/*   Updated: 2025/04/03 11:20:42 by joleksia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,12 +30,12 @@ int	cub_input_up(int key, t_game *game)
 	return (1);
 }
 
-int cub_key_down(t_game *game, int key)
+int	cub_key_down(t_game *game, int key)
 {
 	return (game->input[key]);
 }
 
-int cub_key_up(t_game *game, int key)
+int	cub_key_up(t_game *game, int key)
 {
 	return (!game->input[key]);
 }

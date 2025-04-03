@@ -1,8 +1,12 @@
 parser:
 - [ ] check if we use macro functions (if so, replace them);
+- [ ] check for map size;
 
 renderer:
-- [ ] render floor and ceiling;
-- [ ] render the map itself;
+- [X] render floor and ceiling;
+- [X] render the map itself;
 - [ ] render the textures as the walls;
-- [ ] render a 2D map at the corner of the screen;
+- [X] render a 2D map at the corner of the screen;
+- [X] collision detection;
+- [X] proper movement;
+- [ ] render the hands;

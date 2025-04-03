@@ -6,74 +6,37 @@
 /*   By: joleksia <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/30 07:26:10 by joleksia          #+#    #+#             */
-/*   Updated: 2025/03/30 11:35:45 by joleksia         ###   ########.fr       */
+/*   Updated: 2025/04/03 11:23:40 by joleksia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-static float	__cub_p_getdist(t_game *game, int i)
-{
-	int		wall_hit;
-	float	wall_dist;
-	float	ray_ang;
-	t_vec2i	test;
-
-	ray_ang
-		= (game->player.rot - game->player.fov / 2.0f)
-		+ ((float) i / (float) CUB_WIN_W) * game->player.fov;
-	wall_hit = 0;
-	wall_dist = 0.0f;
-	while (!wall_hit && wall_dist < CUB_FAR_PLANE)
-	{
-		wall_dist += 0.1f;
-		test[0] = (int)(game->player.pos[0] + sinf(ray_ang) * wall_dist);
-		test[1] = (int)(game->player.pos[1] + cosf(ray_ang) * wall_dist);
-		if (test[0] < 0 || test[0] >= CUB_WIN_W
-			|| test[1] < 0 || test[1] >= CUB_WIN_H)
-		{
-			wall_hit = 1;
-			wall_dist = CUB_FAR_PLANE;
-		}
-		else
-			wall_hit = (game->map->cell[test[1]][test[0]] == '1');
-	}
-	return (wall_dist);
-}
+/*	> https://github.com/jdah/doomenstein-3d/blob/main/src/main_wolf.c
+ *	> https://lodev.org/cgtutor/raycasting.html
+ * */
+static int	__cub_p_dda(t_game *game, int x, t_vec2i l, int *o);
+static int	__cub_p_verline(t_game *game, int x, t_vec2i l, int pix);
 
 int	cub_player(t_game *game)
 {
 	if (!game)
 		return (!printf("error: null pointer\n"));
 	game->player.game = game;
-	game->player.fov = 3.14159f / 4.0f;
-	if (game->map->dir == 'N')
-		game->player.rot = 0.0f;
-	else if (game->map->dir == 'E')
-		game->player.rot = 90.0f;
-	else if (game->map->dir == 'S')
-		game->player.rot = 270.0f;
-	else if (game->map->dir == 'W')
-		game->player.rot = 360.0f;
+	game->player.plane[0] = 0.0f;
+	game->player.plane[1] = 0.66f;
+	game->player.dir[0] = 1.0f;
+	game->player.dir[1] = 0.0f;
 	game->player.pos[0] = game->map->map_spawn[0];
 	game->player.pos[1] = game->map->map_spawn[1];
-	printf(
-		"info: player init | rot: %.2f | pos: %.2f, %.2f | fov: %.2f\n",
-		game->player.rot,
-		game->player.pos[0], game->player.pos[1],
-		game->player.fov
-		);
+	printf("info: player init\n");
 	return (1);
 }
 
 int	cub_p_update(t_game *game)
 {
-	t_vec2i	pos;
-
 	if (!game)
 		return (!printf("error: null pointer\n"));
-	pos[0] = (int) game->player.pos[0];
-	pos[1] = (int) game->player.pos[1];
 	cub_p_rotate(game);
 	cub_p_move(game);
 	cub_p_strafe(game);
@@ -84,24 +47,89 @@ int	cub_p_update(t_game *game)
 
 int	cub_p_render(t_game *game)
 {
-	t_vec2i	i;
-	t_vec2	floor_ceil_dist;
-	float	dist;
+	t_vec2i	line;
+	int		orient;
+	int		x;
 
 	if (!game)
 		return (!printf("error: null pointer\n"));
-	i[0] = -1;
-	while (++i[0] < CUB_WIN_W)
+	x = -1;
+	while (++x < CUB_WIN_W)
 	{
-		dist = __cub_p_getdist(game, i[0]);
-		floor_ceil_dist[0] = (CUB_WIN_H / 2.0f) - CUB_WIN_H / dist;
-		floor_ceil_dist[1] = CUB_WIN_H - floor_ceil_dist[0];
-		i[1] = -1;
-		while (++i[1] < CUB_WIN_H)
-		{
-			if (i[1] > floor_ceil_dist[0] && i[1] <= floor_ceil_dist[1])
-				cub_setpix(game, i[0], i[1], 0xffffffff);
-		}
+		__cub_p_dda(game, x, line, &orient);
+		if (!orient)
+			__cub_p_verline(game, x, line, 0xffd32734);
+		else
+			__cub_p_verline(game, x, line, 0xff2d93dd);
 	}
+	return (1);
+}
+
+static int	__cub_p_dda(t_game *game, int x, t_vec2i l, int *o)
+{
+	t_vec2i	pos;
+	t_vec2	dir;
+	t_vec2	delta;
+	t_vec2	side;
+	t_vec2	step;
+	float	cam;
+	float	dperp;
+	int		hit;
+	int		h;
+
+	cam = 2 * x / (float) CUB_WIN_W - 1;
+	dir[0] = game->player.dir[0] + game->player.plane[0] * cam;
+	dir[1] = game->player.dir[1] + game->player.plane[1] * cam;
+	delta[0] = fabs(1.0f / dir[0]);
+	delta[1] = fabs(1.0f / dir[1]);
+	pos[0] = (int) game->player.pos[0];
+	pos[1] = (int) game->player.pos[1];
+	side[0] = delta[0];
+	if (dir[0] < 0)
+		side[0] *= game->player.pos[0] - pos[0];
+	else
+		side[0] *= pos[0] + 1 - game->player.pos[0];
+	side[1] = delta[1];
+	if (dir[1] < 0)
+		side[1] *= game->player.pos[1] - pos[1];
+	else
+		side[1] *= pos[1] + 1 - game->player.pos[1];
+	step[0] = (dir[0] > 0) - (dir[0] <= 0);
+	step[1] = (dir[1] > 0) - (dir[1] <= 0);
+	hit = 0;
+	while (!hit)
+	{
+		if (side[0] < side[1])
+		{
+			side[0] += delta[0];
+			pos[0] += step[0];
+			*o = 0;
+		}
+		else
+		{
+			side[1] += delta[1];
+			pos[1] += step[1];
+			*o = 1;
+		}
+		if (game->map->cell[pos[1]][pos[0]] == '1')
+			hit = 1;
+	}
+	if (!*o)
+		dperp = side[0] - delta[0];
+	else
+		dperp = side[1] - delta[1];
+	h = (int)(CUB_WIN_H / dperp);
+	l[0] = cub_max((CUB_WIN_H / 2) - (h / 2), 0);
+	l[1] = cub_min((CUB_WIN_H / 2) + (h / 2), CUB_WIN_H - 1);
+	return (1);
+}
+
+static int	__cub_p_verline(t_game *game, int x, t_vec2i l, int pix)
+{
+	int	y;
+
+	y = l[0] - 1;
+	while (++y < l[1])
+		cub_setpix(game, x, y, pix);
 	return (1);
 }

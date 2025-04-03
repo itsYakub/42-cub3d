@@ -6,7 +6,7 @@
 /*   By: joleksia <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 09:48:22 by joleksia          #+#    #+#             */
-/*   Updated: 2025/03/30 11:34:49 by joleksia         ###   ########.fr       */
+/*   Updated: 2025/04/03 11:19:17 by joleksia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 # include <stdlib.h>
 # include <stddef.h>
 # include <unistd.h>
+# include <X11/keysym.h>
 # include <X11/keysymdef.h>
 # include "parser/parser.h"
 # include "libft/libft.h"
@@ -41,6 +42,12 @@
 # ifndef CUB_FAR_PLANE
 #  define CUB_FAR_PLANE 64
 # endif
+# ifndef CUB_P_SENS
+#  define CUB_P_SENS 0.5f
+# endif
+# ifndef CUB_P_VEL
+#  define CUB_P_VEL 1.0f
+# endif
 
 /*	SECTION:
  *		Typedefs
@@ -53,8 +60,8 @@ struct s_player
 {
 	struct s_game	*game;
 	t_vec2			pos;
-	float			rot;
-	float			fov;
+	t_vec2			dir;
+	t_vec2			plane;
 };
 
 struct s_game
@@ -76,6 +83,7 @@ struct s_game
 
 typedef struct s_game	t_game;
 typedef struct s_player	t_player;
+typedef unsigned int	t_pix;
 
 /*	SECTION:
  *		Function declarations
