@@ -6,7 +6,7 @@
 /*   By: joleksia <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/30 07:26:10 by joleksia          #+#    #+#             */
-/*   Updated: 2025/04/04 08:07:13 by joleksia         ###   ########.fr       */
+/*   Updated: 2025/04/04 08:21:56 by joleksia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,9 +32,9 @@ int	cub_p_update(t_game *game)
 {
 	if (!game)
 		return (!printf("error: null pointer\n"));
-	cub_p_rotate(game);
-	cub_p_move(game);
-	cub_p_strafe(game);
+	cub_p_rotate(game, cub_deltatime(game));
+	cub_p_move(game, cub_deltatime(game));
+	cub_p_strafe(game, cub_deltatime(game));
 	cub_p_render(game);
 	cub_minimap(game, (t_vec2i){8, 8});
 	return (1);
@@ -53,13 +53,13 @@ int	cub_p_render(t_game *game)
 	{
 		cub_dda(game, x, line, &orient);
 		if (orient == 0)
-			__cub_p_verline(game, x, line, 0xffd32734);
+			__cub_p_verline(game, x, line, CUB_RED);
 		else if (orient == 1)
-			__cub_p_verline(game, x, line, 0xff28c641);
+			__cub_p_verline(game, x, line, CUB_GREEN);
 		else if (orient == 2)
-			__cub_p_verline(game, x, line, 0xff2d93dd);
+			__cub_p_verline(game, x, line, CUB_BLUE);
 		else if (orient == 3)
-			__cub_p_verline(game, x, line, 0xffe6da29);
+			__cub_p_verline(game, x, line, CUB_YELLOW);
 	}
 	return (1);
 }

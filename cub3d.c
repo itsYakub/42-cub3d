@@ -6,7 +6,7 @@
 /*   By: joleksia <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 09:48:48 by joleksia          #+#    #+#             */
-/*   Updated: 2025/03/30 11:13:10 by joleksia         ###   ########.fr       */
+/*   Updated: 2025/04/04 09:47:08 by joleksia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ int	cub_init(t_game *game)
 	if (!game)
 		return (!printf("error: null pointer\n"));
 	ft_memset(&game->s_win, 0, sizeof(game->s_win));
+	ft_memset(&game->s_time, 0, sizeof(game->s_time));
 	ft_memset(&game->input, 0, sizeof(game->input));
 	game->s_win.mlx = mlx_init();
 	if (!game->s_win.mlx)
@@ -81,9 +82,9 @@ int	cub_update(t_game *game)
 
 	if (!game)
 		return (!printf("error: null pointer\n"));
-	cub_clear(game, 0x00000000);
 	cub_clear_region(game, cub_col_int(game->map->map_col_f), rfloor);
 	cub_clear_region(game, cub_col_int(game->map->map_col_c), rceil);
+	cub_updatetime(game);
 	cub_p_update(game);
 	cub_display(game);
 	return (1);

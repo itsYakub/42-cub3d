@@ -6,7 +6,7 @@
 /*   By: joleksia <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 09:48:22 by joleksia          #+#    #+#             */
-/*   Updated: 2025/04/04 08:03:22 by joleksia         ###   ########.fr       */
+/*   Updated: 2025/04/04 09:53:44 by joleksia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 # include <stdlib.h>
 # include <stddef.h>
 # include <unistd.h>
+# include <sys/time.h>
 # include <X11/keysym.h>
 # include <X11/keysymdef.h>
 # include "parser/parser.h"
@@ -43,10 +44,28 @@
 #  define CUB_FAR_PLANE 64
 # endif
 # ifndef CUB_P_SENS
-#  define CUB_P_SENS 0.5f
+#  define CUB_P_SENS 2.0f
 # endif
 # ifndef CUB_P_VEL
-#  define CUB_P_VEL 1.0f
+#  define CUB_P_VEL 2.0f
+# endif
+# ifndef CUB_RED
+#  define CUB_RED 0xffd32734
+# endif
+# ifndef CUB_GREEN
+#  define CUB_GREEN 0xff28c641
+# endif
+# ifndef CUB_BLUE
+#  define CUB_BLUE 0xff2d93dd
+# endif
+# ifndef CUB_YELLOW
+#  define CUB_YELLOW 0xffe6da29
+# endif
+# ifndef CUB_WHITE
+#  define CUB_WHITE 0xfff8f8f8
+# endif
+# ifndef CUB_BLACK
+#  define CUB_BLACK 0xff0f0f0f
 # endif
 
 /*	SECTION:
@@ -80,6 +99,12 @@ struct s_game
 		int			fb_stride;
 		int			fb_endian;
 	}	s_win;
+	struct
+	{
+		time_t		cur;
+		time_t		prev;
+		float		dt;
+	}	s_time;
 };
 
 struct s_ray
@@ -134,9 +159,9 @@ int	cub_col_int(t_vec4i col);
 int	cub_player(t_game *game);
 int	cub_p_update(t_game *game);
 int	cub_p_render(t_game *game);
-int	cub_p_rotate(t_game *game);
-int	cub_p_move(t_game *game);
-int	cub_p_strafe(t_game *game);
+int	cub_p_rotate(t_game *game, float delta);
+int	cub_p_move(t_game *game, float delta);
+int	cub_p_strafe(t_game *game, float delta);
 
 /* ./cub3d-minimap.c */
 
@@ -149,5 +174,10 @@ int	cub_dda_ray(t_game *game, t_ray *ray, float cam);
 int	cub_dda_perform(t_game *game, t_ray *ray, int *o);
 int	cub_dda_ns(t_ray *ray);
 int	cub_dda_we(t_ray *ray);
+
+/* ./cub3d-time.c */
+float	cub_deltatime(t_game *game);
+long	cub_gettime(void);
+int		cub_updatetime(t_game *game);
 
 #endif

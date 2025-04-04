@@ -6,7 +6,7 @@
 /*   By: joleksia <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/30 09:45:48 by joleksia          #+#    #+#             */
-/*   Updated: 2025/03/30 10:34:32 by joleksia         ###   ########.fr       */
+/*   Updated: 2025/04/04 08:14:30 by joleksia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,10 +27,12 @@ int	cub_minimap(t_game *game, t_vec2i pos)
 		while (game->map->cell[i[1]][++i[0]])
 		{
 			if (game->map->cell[i[1]][i[0]] == '1')
-				__cub_draw_square(game, p, 8, 0xff000000);
+				__cub_draw_square(game, p, 8, CUB_BLACK);
 			else if ((int) game->player.pos[0] == i[0]
 				&& (int) game->player.pos[1] == i[1])
-				__cub_draw_square(game, p, 8, 0xff00ff00);
+				__cub_draw_square(game, p, 8, CUB_GREEN);
+			else if (game->map->cell[i[1]][i[0]] != 32)
+				__cub_draw_square(game, p, 8, CUB_WHITE);
 			p[0] += 8;
 		}
 		p[0] = pos[0];
