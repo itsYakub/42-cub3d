@@ -6,7 +6,7 @@
 /*   By: joleksia <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 10:36:30 by joleksia          #+#    #+#             */
-/*   Updated: 2025/03/30 06:43:08 by joleksia         ###   ########.fr       */
+/*   Updated: 2025/04/04 11:02:58 by joleksia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,17 +61,17 @@ int	cub_clear(t_game *game, unsigned int color)
 	return (1);
 }
 
-int	cub_clear_region(t_game *game, unsigned int color, const t_vec4i region)
+int	cub_clear_region(t_game *game, unsigned int color, const t_vec4i r)
 {
 	t_vec2i	i;
 
 	if (!game)
 		return (!printf("error: null pointer\n"));
-	i[1] = region[1] - 1;
-	while (++i[1] < region[3])
+	i[1] = r[1] - 1;
+	while (++i[1] < r[3])
 	{
-		i[0] = region[0] - 1;
-		while (++i[0] < region[2])
+		i[0] = r[0] - 1;
+		while (++i[0] < r[2])
 		{
 			cub_setpix(game, i[0], i[1], color);
 		}

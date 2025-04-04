@@ -6,7 +6,7 @@
 /*   By: joleksia <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 09:48:22 by joleksia          #+#    #+#             */
-/*   Updated: 2025/04/04 10:09:12 by joleksia         ###   ########.fr       */
+/*   Updated: 2025/04/04 11:02:25 by joleksia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,52 +143,52 @@ typedef unsigned int	t_pix;
 
 /* ./cub3d.c */
 
-int	cub_init(t_game *game);
-int	cub_run(t_game *game);
-int	cub_update(t_game *game);
-int	cub_quit(t_game *game);
+int		cub_init(t_game *game);
+int		cub_run(t_game *game);
+int		cub_update(t_game *game);
+int		cub_quit(t_game *game);
 
 /* ./cub3d-input.c */
 
-int	cub_input_down(int key, t_game *game);
-int	cub_input_up(int key, t_game *game);
-int cub_key_down(t_game *game, int key);
-int cub_key_up(t_game *game, int key);
+int		cub_input_down(int key, t_game *game);
+int		cub_input_up(int key, t_game *game);
+int		cub_key_down(t_game *game, int key);
+int		cub_key_up(t_game *game, int key);
 
 /* ./cub3d-gl.c */
 
-int	cub_getpix(t_game *game, int x, int y);
-int	cub_setpix(t_game *game, int x, int y, unsigned int color);
-int	cub_clear(t_game *game, unsigned int color);
-int	cub_clear_region(t_game *game, unsigned int color, const t_vec4i region);
-int	cub_display(t_game *game);
+int		cub_getpix(t_game *game, int x, int y);
+int		cub_setpix(t_game *game, int x, int y, unsigned int color);
+int		cub_clear(t_game *game, unsigned int color);
+int		cub_clear_region(t_game *game, unsigned int color, const t_vec4i r);
+int		cub_display(t_game *game);
 
 /* ./cub3d-math0.c */
 
-int	cub_min(int a, int b);
-int	cub_max(int a, int b);
-int	cub_col_int(t_vec4i col);
+int		cub_min(int a, int b);
+int		cub_max(int a, int b);
+int		cub_col_int(t_vec4i col);
 
 /* ./cub3d-player0.c ./cub3d-player1.c */
 
-int	cub_player(t_game *game);
-int	cub_p_update(t_game *game);
-int	cub_p_render(t_game *game);
-int	cub_p_rotate(t_game *game, float delta);
-int	cub_p_move(t_game *game, float delta);
-int	cub_p_strafe(t_game *game, float delta);
+int		cub_player(t_game *game);
+int		cub_p_update(t_game *game);
+int		cub_p_render(t_game *game);
+int		cub_p_rotate(t_game *game, float delta);
+int		cub_p_move(t_game *game, float delta);
+int		cub_p_strafe(t_game *game, float delta);
 
 /* ./cub3d-minimap.c */
 
-int	cub_minimap(t_game *game, t_vec2i pos);
+int		cub_minimap(t_game *game, t_vec2i pos);
 
 /* ./cub3d-dda0.c */
 
-int	cub_dda(t_game *game, int x, t_vec2i l, int *o);
-int	cub_dda_ray(t_game *game, t_ray *ray, float cam);
-int	cub_dda_perform(t_game *game, t_ray *ray, int *o);
-int	cub_dda_ns(t_ray *ray);
-int	cub_dda_we(t_ray *ray);
+int		cub_dda(t_game *game, int x, t_vec2i l, int *o);
+int		cub_dda_ray(t_game *game, t_ray *ray, float cam);
+int		cub_dda_perform(t_game *game, t_ray *ray, int *o);
+int		cub_dda_ns(t_ray *ray);
+int		cub_dda_we(t_ray *ray);
 
 /* ./cub3d-time.c */
 float	cub_deltatime(t_game *game);
@@ -196,7 +196,7 @@ long	cub_gettime(void);
 int		cub_updatetime(t_game *game);
 
 /* ./cub3d-assets.c */
-int	cub_ass_load(t_game *game);
-int	cub_ass_unload(t_game *game);
+int		cub_ass_load(t_game *game);
+int		cub_ass_unload(t_game *game);
 
 #endif

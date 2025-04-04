@@ -10,3 +10,4 @@ renderer:
 - [X] collision detection;
 - [X] proper movement;
 - [ ] render the hands;
+- [ ] make the more distant objects darker;

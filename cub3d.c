@@ -6,7 +6,7 @@
 /*   By: joleksia <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 09:48:48 by joleksia          #+#    #+#             */
-/*   Updated: 2025/04/04 10:15:32 by joleksia         ###   ########.fr       */
+/*   Updated: 2025/04/04 11:01:15 by joleksia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,9 @@ int	main(int ac, char **av)
 
 	if (ac != 2)
 		return (printf("./cub3d [ PATH_TO_MAP ]\n"));
+	ft_memset(&game.s_time, 0, sizeof(game.s_time));
+	ft_memset(&game.s_win, 0, sizeof(game.s_win));
+	ft_memset(&game.input, 0, sizeof(game.input));
 	game.map = par_map_init(av[1]);
 	if (!game.map)
 		return (printf("error: map failed\n"));
@@ -35,9 +38,6 @@ int	cub_init(t_game *game)
 {
 	if (!game)
 		return (!printf("error: null pointer\n"));
-	ft_memset(&game->s_win, 0, sizeof(game->s_win));
-	ft_memset(&game->s_time, 0, sizeof(game->s_time));
-	ft_memset(&game->input, 0, sizeof(game->input));
 	game->s_win.mlx = mlx_init();
 	if (!game->s_win.mlx)
 		return (!printf("error: cannot init mlx\n"));
