@@ -6,7 +6,7 @@
 /*   By: joleksia <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 09:48:48 by joleksia          #+#    #+#             */
-/*   Updated: 2025/04/04 09:47:08 by joleksia         ###   ########.fr       */
+/*   Updated: 2025/04/04 10:15:32 by joleksia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,8 @@ int	main(int ac, char **av)
 	printf("info: map loaded successfully\n");
 	if (!cub_init(&game))
 		return (1);
+	if (!cub_ass_load(&game))
+		return (cub_quit(&game));
 	cub_player(&game);
 	cub_run(&game);
 	return (0);
@@ -95,6 +97,7 @@ int	cub_quit(t_game *game)
 	if (!game)
 		return (!printf("error: null pointer\n"));
 	printf("info: quit\n");
+	cub_ass_unload(game);
 	par_map_unload(game->map);
 	mlx_loop_end(game->s_win.mlx);
 	mlx_destroy_image(game->s_win.mlx, game->s_win.img);

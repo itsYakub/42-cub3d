@@ -6,7 +6,7 @@
 /*   By: joleksia <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 09:48:22 by joleksia          #+#    #+#             */
-/*   Updated: 2025/04/04 09:53:44 by joleksia         ###   ########.fr       */
+/*   Updated: 2025/04/04 10:09:12 by joleksia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,6 +105,21 @@ struct s_game
 		time_t		prev;
 		float		dt;
 	}	s_time;
+	struct
+	{
+		t_img		*txt_no;
+		t_vec2i		txt_no_siz;
+		char		*txt_no_buf;
+		t_img		*txt_so;
+		t_vec2i		txt_so_siz;
+		char		*txt_so_buf;
+		t_img		*txt_we;
+		t_vec2i		txt_we_siz;
+		char		*txt_we_buf;
+		t_img		*txt_ea;
+		t_vec2i		txt_ea_siz;
+		char		*txt_ea_buf;
+	}	s_assets;
 };
 
 struct s_ray
@@ -179,5 +194,9 @@ int	cub_dda_we(t_ray *ray);
 float	cub_deltatime(t_game *game);
 long	cub_gettime(void);
 int		cub_updatetime(t_game *game);
+
+/* ./cub3d-assets.c */
+int	cub_ass_load(t_game *game);
+int	cub_ass_unload(t_game *game);
 
 #endif
