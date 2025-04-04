@@ -7,6 +7,7 @@ SRC		= 	./cub3d.c			\
 			./cub3d-player0.c	\
 			./cub3d-player1.c	\
 			./cub3d-input.c		\
+			./cub3d-dda0.c		\
 			./cub3d-minimap.c
 OBJ		= $(SRC:.c=.o)
 LIBFT	= ./libft/libft.a

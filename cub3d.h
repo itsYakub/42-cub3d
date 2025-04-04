@@ -6,7 +6,7 @@
 /*   By: joleksia <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 09:48:22 by joleksia          #+#    #+#             */
-/*   Updated: 2025/04/03 11:19:17 by joleksia         ###   ########.fr       */
+/*   Updated: 2025/04/04 08:03:22 by joleksia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@
 
 struct					s_game;
 struct					s_player;
+struct					s_ray;
 
 struct s_player
 {
@@ -81,8 +82,19 @@ struct s_game
 	}	s_win;
 };
 
+struct s_ray
+{
+	t_vec2i	pos;
+	t_vec2	dir;
+	t_vec2	delta;
+	t_vec2	side;
+	t_vec2	step;
+	int		hit;
+};
+
 typedef struct s_game	t_game;
 typedef struct s_player	t_player;
+typedef struct s_ray	t_ray;
 typedef unsigned int	t_pix;
 
 /*	SECTION:
@@ -129,5 +141,13 @@ int	cub_p_strafe(t_game *game);
 /* ./cub3d-minimap.c */
 
 int	cub_minimap(t_game *game, t_vec2i pos);
+
+/* ./cub3d-dda0.c */
+
+int	cub_dda(t_game *game, int x, t_vec2i l, int *o);
+int	cub_dda_ray(t_game *game, t_ray *ray, float cam);
+int	cub_dda_perform(t_game *game, t_ray *ray, int *o);
+int	cub_dda_ns(t_ray *ray);
+int	cub_dda_we(t_ray *ray);
 
 #endif
