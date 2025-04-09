@@ -6,7 +6,7 @@
 /*   By: joleksia <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 09:48:22 by joleksia          #+#    #+#             */
-/*   Updated: 2025/04/04 11:02:25 by joleksia         ###   ########.fr       */
+/*   Updated: 2025/04/09 07:26:33 by joleksia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,9 +72,21 @@
  *		Typedefs
  * */
 
+struct					s_texture;
 struct					s_game;
 struct					s_player;
 struct					s_ray;
+
+struct s_texture
+{
+	t_img	*img;
+	char	*dat;
+	int		w;
+	int		h;
+	int		b;
+	int		s;
+	int		e;
+};
 
 struct s_player
 {
@@ -107,18 +119,10 @@ struct s_game
 	}	s_time;
 	struct
 	{
-		t_img		*txt_no;
-		t_vec2i		txt_no_siz;
-		char		*txt_no_buf;
-		t_img		*txt_so;
-		t_vec2i		txt_so_siz;
-		char		*txt_so_buf;
-		t_img		*txt_we;
-		t_vec2i		txt_we_siz;
-		char		*txt_we_buf;
-		t_img		*txt_ea;
-		t_vec2i		txt_ea_siz;
-		char		*txt_ea_buf;
+		struct s_texture	txt_no;
+		struct s_texture	txt_so;
+		struct s_texture	txt_we;
+		struct s_texture	txt_ea;
 	}	s_assets;
 };
 
@@ -132,10 +136,10 @@ struct s_ray
 	int		hit;
 };
 
-typedef struct s_game	t_game;
-typedef struct s_player	t_player;
-typedef struct s_ray	t_ray;
-typedef unsigned int	t_pix;
+typedef struct s_texture	t_texture;
+typedef struct s_game		t_game;
+typedef struct s_player		t_player;
+typedef struct s_ray		t_ray;
 
 /*	SECTION:
  *		Function declarations
@@ -198,5 +202,9 @@ int		cub_updatetime(t_game *game);
 /* ./cub3d-assets.c */
 int		cub_ass_load(t_game *game);
 int		cub_ass_unload(t_game *game);
+
+/* ./cub3d-texture0.c */
+int		cub_tex_load(t_game *game, t_texture *tex, const char * s);
+int		cub_tex_unload(t_game *game, t_texture *tex);
 
 #endif
