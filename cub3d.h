@@ -6,7 +6,7 @@
 /*   By: joleksia <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 09:48:22 by joleksia          #+#    #+#             */
-/*   Updated: 2025/04/09 07:26:33 by joleksia         ###   ########.fr       */
+/*   Updated: 2025/04/09 11:32:43 by joleksia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,6 +134,8 @@ struct s_ray
 	t_vec2	side;
 	t_vec2	step;
 	int		hit;
+	int		o;
+	float	dperp;
 };
 
 typedef struct s_texture	t_texture;
@@ -188,9 +190,10 @@ int		cub_minimap(t_game *game, t_vec2i pos);
 
 /* ./cub3d-dda0.c */
 
-int		cub_dda(t_game *game, int x, t_vec2i l, int *o);
+int		cub_dda(t_game *game, int x, t_vec2i l);
 int		cub_dda_ray(t_game *game, t_ray *ray, float cam);
-int		cub_dda_perform(t_game *game, t_ray *ray, int *o);
+int		cub_dda_perform(t_game *game, t_ray *ray);
+int		cub_dda_draw(t_game *game, t_ray *ray, t_texture t, t_vec2i l, int x);
 int		cub_dda_ns(t_ray *ray);
 int		cub_dda_we(t_ray *ray);
 
@@ -202,9 +205,11 @@ int		cub_updatetime(t_game *game);
 /* ./cub3d-assets.c */
 int		cub_ass_load(t_game *game);
 int		cub_ass_unload(t_game *game);
+int		cub_ass_gettex(t_game *game, t_texture *tex, int i);
 
 /* ./cub3d-texture0.c */
-int		cub_tex_load(t_game *game, t_texture *tex, const char * s);
-int		cub_tex_unload(t_game *game, t_texture *tex);
+int				cub_tex_load(t_game *game, t_texture *tex, const char * s);
+int				cub_tex_unload(t_game *game, t_texture *tex);
+unsigned int	cub_tex_getpix(t_texture t, int x, int y);
 
 #endif

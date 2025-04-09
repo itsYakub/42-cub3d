@@ -6,13 +6,11 @@
 /*   By: joleksia <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/30 07:26:10 by joleksia          #+#    #+#             */
-/*   Updated: 2025/04/04 08:21:56 by joleksia         ###   ########.fr       */
+/*   Updated: 2025/04/09 11:01:58 by joleksia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
-
-static int	__cub_p_verline(t_game *game, int x, t_vec2i l, int pix);
 
 int	cub_player(t_game *game)
 {
@@ -43,33 +41,12 @@ int	cub_p_update(t_game *game)
 int	cub_p_render(t_game *game)
 {
 	t_vec2i	line;
-	int		orient;
 	int		x;
 
 	if (!game)
 		return (!printf("error: null pointer\n"));
 	x = -1;
 	while (++x < CUB_WIN_W)
-	{
-		cub_dda(game, x, line, &orient);
-		if (orient == 0)
-			__cub_p_verline(game, x, line, CUB_RED);
-		else if (orient == 1)
-			__cub_p_verline(game, x, line, CUB_GREEN);
-		else if (orient == 2)
-			__cub_p_verline(game, x, line, CUB_BLUE);
-		else if (orient == 3)
-			__cub_p_verline(game, x, line, CUB_YELLOW);
-	}
-	return (1);
-}
-
-static int	__cub_p_verline(t_game *game, int x, t_vec2i l, int pix)
-{
-	int	y;
-
-	y = l[0] - 1;
-	while (++y < l[1])
-		cub_setpix(game, x, y, pix);
+		cub_dda(game, x, line);
 	return (1);
 }

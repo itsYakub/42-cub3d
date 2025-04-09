@@ -8,6 +8,7 @@ SRC		= 	./cub3d.c			\
 			./cub3d-player1.c	\
 			./cub3d-input.c		\
 			./cub3d-dda0.c		\
+			./cub3d-dda1.c		\
 			./cub3d-time.c		\
 			./cub3d-assets.c	\
 			./cub3d-texture0.c	\

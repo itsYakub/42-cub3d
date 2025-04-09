@@ -6,7 +6,7 @@
 /*   By: joleksia <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 06:52:04 by joleksia          #+#    #+#             */
-/*   Updated: 2025/04/04 08:04:05 by joleksia         ###   ########.fr       */
+/*   Updated: 2025/04/09 11:33:35 by joleksia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,21 +15,24 @@
 /*	> https://github.com/jdah/doomenstein-3d/blob/main/src/main_wolf.c
  *	> https://lodev.org/cgtutor/raycasting.html
  * */
-int	cub_dda(t_game *game, int x, t_vec2i l, int *o)
+int	cub_dda(t_game *game, int x, t_vec2i l)
 {
-	t_ray	ray;
-	float	cam;
-	float	dperp;
-	int		h;
+	t_ray		ray;
+	t_texture	tex;
+	float		cam;
+	int			lh;
 
 	cam = 2 * x / (float) CUB_WIN_W - 1;
 	cub_dda_ray(game, &ray, cam);
-	if (!cub_dda_perform(game, &ray, o))
+	if (!cub_dda_perform(game, &ray))
 		return (0);
-	dperp = ray.side[*o % 2] - ray.delta[*o % 2];
-	h = (int)(CUB_WIN_H / dperp);
-	l[0] = cub_max((CUB_WIN_H / 2) - (h / 2), 0);
-	l[1] = cub_min((CUB_WIN_H / 2) + (h / 2), CUB_WIN_H - 1);
+	ray.dperp = ray.side[ray.o % 2] - ray.delta[ray.o % 2];
+	lh = (int)(CUB_WIN_H / ray.dperp);
+	l[0] = cub_max((CUB_WIN_H / 2) - (lh / 2), 0);
+	l[1] = cub_min((CUB_WIN_H / 2) + (lh / 2), CUB_WIN_H - 1);
+	if (!cub_ass_gettex(game, &tex, ray.o)
+		|| !cub_dda_draw(game, &ray, tex, l, x))
+		return (0);
 	return (1);
 }
 
@@ -57,7 +60,7 @@ int	cub_dda_ray(t_game *game, t_ray *ray, float cam)
 	return (1);
 }
 
-int	cub_dda_perform(t_game *game, t_ray *ray, int *o)
+int	cub_dda_perform(t_game *game, t_ray *ray)
 {
 	while (!ray->hit)
 	{
@@ -65,13 +68,13 @@ int	cub_dda_perform(t_game *game, t_ray *ray, int *o)
 		{
 			ray->side[0] += ray->delta[0];
 			ray->pos[0] += ray->step[0];
-			*o = cub_dda_we(ray);
+			ray->o = cub_dda_we(ray);
 		}
 		else
 		{
 			ray->side[1] += ray->delta[1];
 			ray->pos[1] += ray->step[1];
-			*o = cub_dda_ns(ray);
+			ray->o = cub_dda_ns(ray);
 		}
 		if (ray->pos[1] < 0 || ray->pos[0] < 0
 			|| ray->pos[1] >= game->map->map_size[1]
@@ -83,16 +86,37 @@ int	cub_dda_perform(t_game *game, t_ray *ray, int *o)
 	return (1);
 }
 
-int	cub_dda_ns(t_ray *ray)
+int	cub_dda_draw(t_game *game, t_ray *ray, t_texture t, t_vec2i l, int x)
 {
-	if (ray->dir[1] < 0.0f)
-		return (1);
-	return (3);
-}
+	double			wallx;
+	int				texx;
+	double			step;
+	double			tpos;
+	int				lh;
+	int				y;
+	int				texy;
+	unsigned int	pix;
 
-int	cub_dda_we(t_ray *ray)
-{
-	if (ray->dir[0] < 0.0f)
-		return (0);
-	return (2);
+	if (!ray->o || ray->o == 2)
+	   wallx = game->player.pos[1] + ray->dperp * ray->dir[1];
+	else
+	   wallx = game->player.pos[0] + ray->dperp * ray->dir[0];
+	wallx -= floor(wallx);
+	texx = (int) (wallx * (double) (t.w));
+	if ((!ray->o || ray->o == 2) && ray->dir[0] > 0)
+		texx = t.w - texx - 1;
+	if ((ray->o == 1 || ray->o == 3) && ray->dir[1] < 0)
+		texx = t.w - texx - 1;
+	lh = ((int) CUB_WIN_H / ray->dperp);
+	step = 1.0 * t.h / lh;
+	tpos = (l[0] - CUB_WIN_H / 2.0 + lh / 2.0) * step;
+	y = l[0] - 1;
+	while (++y < l[1])
+	{
+		texy = (int) tpos & (t.h - 1);
+		tpos += step;
+		pix = cub_tex_getpix(t, texx, texy);
+		cub_setpix(game, x, y, pix);
+	}
+	return (1);
 }

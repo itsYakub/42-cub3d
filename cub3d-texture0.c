@@ -6,7 +6,7 @@
 /*   By: joleksia <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 07:23:12 by joleksia          #+#    #+#             */
-/*   Updated: 2025/04/09 07:43:24 by joleksia         ###   ########.fr       */
+/*   Updated: 2025/04/09 11:33:05 by joleksia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,4 +33,18 @@ int	cub_tex_unload(t_game *game, t_texture *tex)
 	if (tex->img)
 		mlx_destroy_image(game->s_win.mlx, tex->img);
 	return (1);
+}
+
+unsigned int	cub_tex_getpix(t_texture t, int x, int y)
+{
+	int		stride;
+	int		bits;
+
+	if (!t.img || !t.dat)
+		return (!printf("warn: invalid texture\n"));
+	if (x < 0 || x >= t.w || y < 0 || y >= t.h)
+		return (!printf("warn: index out of bounds\n"));
+	bits = t.b;
+	stride = t.s;
+	return ((unsigned int) *(t.dat + (y * stride + x * ((bits / 8)))));
 }
