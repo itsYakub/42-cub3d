@@ -46,12 +46,12 @@ int	cub_ass_gettex(t_game *game, t_texture *tex, int i)
 	if (i < 0 || i >= 4)
 		return (!printf("error: index out of bounds\n"));
 	if (!i)
-		*tex = game->s_assets.txt_no;
-	else if (i == 1)
-		*tex = game->s_assets.txt_so;
-	else if (i == 2)
 		*tex = game->s_assets.txt_we;
-	else if (i == 3)
+	else if (i == 1)
+		*tex = game->s_assets.txt_no;
+	else if (i == 2)
 		*tex = game->s_assets.txt_ea;
+	else if (i == 3)
+		*tex = game->s_assets.txt_so;
 	return (1);
 }

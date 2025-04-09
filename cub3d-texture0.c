@@ -46,5 +46,5 @@ unsigned int	cub_tex_getpix(t_texture t, int x, int y)
 		return (!printf("warn: index out of bounds\n"));
 	bits = t.b;
 	stride = t.s;
-	return ((unsigned int) *(t.dat + (y * stride + x * ((bits / 8)))));
+	return (*((unsigned int *) (t.dat + (y * stride + x * ((bits / 8))))));
 }
