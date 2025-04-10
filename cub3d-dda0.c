@@ -6,7 +6,7 @@
 /*   By: joleksia <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 06:52:04 by joleksia          #+#    #+#             */
-/*   Updated: 2025/04/09 11:33:35 by joleksia         ###   ########.fr       */
+/*   Updated: 2025/04/10 10:47:16 by joleksia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,9 @@ int	cub_dda(t_game *game, int x, t_vec2i l)
 	lh = (int)(CUB_WIN_H / ray.dperp);
 	l[0] = cub_max((CUB_WIN_H / 2) - (lh / 2), 0);
 	l[1] = cub_min((CUB_WIN_H / 2) + (lh / 2), CUB_WIN_H - 1);
-	if (!cub_ass_gettex(game, &tex, ray.o)
-		|| !cub_dda_draw(game, &ray, tex, l, x))
+	if (!cub_ass_gettex(game, &tex, ray.o))
 		return (0);
+	cub_dda_draw(game, &ray, tex, (t_vec3i){l[0], l[1], x});
 	return (1);
 }
 
@@ -86,37 +86,48 @@ int	cub_dda_perform(t_game *game, t_ray *ray)
 	return (1);
 }
 
-int	cub_dda_draw(t_game *game, t_ray *ray, t_texture t, t_vec2i l, int x)
+/*	Norme-proof variables layout:
+ * */
+/*	t_vec3i i3:
+ *	[0] - l[0];
+ *	[1] - l[1];
+ *	[2] - x;
+ * */
+/*	double d[3]:
+ *	[0] - wallx;
+ *	[1] - step;
+ *	[2] - tpos;
+ * */
+/*	int	i[4]:
+ *	[0] - texx;
+ *	[1] - texy;
+ *	[2] - lineheight;
+ *	[3] - y;
+ * */
+void	cub_dda_draw(t_game *game, t_ray *ray, t_texture t, t_vec3i i3)
 {
-	double			wallx;
-	int				texx;
-	double			step;
-	double			tpos;
-	int				lh;
-	int				y;
-	int				texy;
-	unsigned int	pix;
+	double	d[3];
+	int		i[4];
 
 	if (!ray->o || ray->o == 2)
-	   wallx = game->player.pos[1] + ray->dperp * ray->dir[1];
+		d[0] = game->player.pos[1] + ray->dperp * ray->dir[1];
 	else
-	   wallx = game->player.pos[0] + ray->dperp * ray->dir[0];
-	wallx -= floor(wallx);
-	texx = (int) (wallx * (double) (t.w));
+		d[0] = game->player.pos[0] + ray->dperp * ray->dir[0];
+	d[0] -= (int)(d[0]);
+	i[0] = (int)(d[0] * (double)(t.w));
 	if ((!ray->o || ray->o == 2) && ray->dir[0] > 0)
-		texx = t.w - texx - 1;
+		i[0] = t.w - i[0] - 1;
 	if ((ray->o == 1 || ray->o == 3) && ray->dir[1] < 0)
-		texx = t.w - texx - 1;
-	lh = ((int) CUB_WIN_H / ray->dperp);
-	step = 1.0 * t.h / lh;
-	tpos = (l[0] - CUB_WIN_H / 2.0 + lh / 2.0) * step;
-	y = l[0] - 1;
-	while (++y < l[1])
+		i[0] = t.w - i[0] - 1;
+	i[2] = ((int) CUB_WIN_H / ray->dperp);
+	d[1] = 1.0 * t.h / i[2];
+	d[2] = (i3[0] - CUB_WIN_H / 2.0 + i[2] / 2.0) * d[1];
+	i[3] = i3[0] - 1;
+	while (++i[3] < i3[1])
 	{
-		texy = (int) tpos & (t.h - 1);
-		tpos += step;
-		pix = cub_tex_getpix(t, texx, texy);
-		cub_setpix(game, x, y, pix);
+		i[1] = (int) d[2] & (t.h - 1);
+		d[2] += d[1];
+		cub_setpix(game, i3[2], i[3],
+			cub_dda_dsh(game, ray, cub_tex_getpix(t, i[0], i[1])));
 	}
-	return (1);
 }

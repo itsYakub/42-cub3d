@@ -6,11 +6,14 @@
 /*   By: joleksia <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/30 10:52:41 by joleksia          #+#    #+#             */
-/*   Updated: 2025/04/04 08:21:03 by joleksia         ###   ########.fr       */
+/*   Updated: 2025/04/10 11:51:42 by joleksia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
+
+static int	__cub_p_mov(t_game *g, float up, float right);
+static int	__cub_p_strf(t_game *g, float up, float right);
 
 int	cub_p_rotate(t_game *game, float delta)
 {
@@ -34,58 +37,54 @@ int	cub_p_rotate(t_game *game, float delta)
 
 int	cub_p_move(t_game *game, float delta)
 {
-	if (!game)
-		return (!printf("error: null pointer\n"));
+	float	up;
+	float	right;
+
+	up = game->player.dir[1] * CUB_P_VEL * delta;
+	right = game->player.dir[0] * CUB_P_VEL * delta;
 	if (cub_key_down(game, XK_w))
-	{
-		game->player.pos[0] += game->player.dir[0] * CUB_P_VEL * delta;
-		game->player.pos[1] += game->player.dir[1] * CUB_P_VEL * delta;
-		if (game->map->cell[(int) game->player.pos[1]]
-			[(int) game->player.pos[0]] == '1')
-		{
-			game->player.pos[0] -= game->player.dir[0] * CUB_P_VEL * delta;
-			game->player.pos[1] -= game->player.dir[1] * CUB_P_VEL * delta;
-		}
-	}
+		__cub_p_mov(game, up, right);
 	else if (cub_key_down(game, XK_s))
-	{
-		game->player.pos[0] -= game->player.dir[0] * CUB_P_VEL * delta;
-		game->player.pos[1] -= game->player.dir[1] * CUB_P_VEL * delta;
-		if (game->map->cell[(int) game->player.pos[1]]
-			[(int) game->player.pos[0]] == '1')
-		{
-			game->player.pos[0] += game->player.dir[0] * CUB_P_VEL * delta;
-			game->player.pos[1] += game->player.dir[1] * CUB_P_VEL * delta;
-		}
-	}
+		__cub_p_mov(game, -up, -right);
 	return (1);
 }
 
 int	cub_p_strafe(t_game *game, float delta)
 {
-	if (!game)
-		return (!printf("error: null pointer\n"));
+	float	up;
+	float	right;
+
+	up = game->player.dir[1] * CUB_P_VEL * delta;
+	right = game->player.dir[0] * CUB_P_VEL * delta;
 	if (cub_key_down(game, XK_a))
-	{
-		game->player.pos[0] += game->player.dir[1] * CUB_P_VEL * delta;
-		game->player.pos[1] -= game->player.dir[0] * CUB_P_VEL * delta;
-		if (game->map->cell[(int) game->player.pos[1]]
-			[(int) game->player.pos[0]] == '1')
-		{
-			game->player.pos[0] -= game->player.dir[1] * CUB_P_VEL * delta;
-			game->player.pos[1] += game->player.dir[0] * CUB_P_VEL * delta;
-		}
-	}
+		__cub_p_strf(game, up, right);
 	else if (cub_key_down(game, XK_d))
+		__cub_p_strf(game, -up, -right);
+	return (1);
+}
+
+static int	__cub_p_mov(t_game *g, float up, float right)
+{
+	g->player.pos[0] += right;
+	g->player.pos[1] += up;
+	if (g->map->cell[(int) g->player.pos[1]]
+		[(int) g->player.pos[0]] == '1')
 	{
-		game->player.pos[0] -= game->player.dir[1] * CUB_P_VEL * delta;
-		game->player.pos[1] += game->player.dir[0] * CUB_P_VEL * delta;
-		if (game->map->cell[(int) game->player.pos[1]]
-			[(int) game->player.pos[0]] == '1')
-		{
-			game->player.pos[0] += game->player.dir[1] * CUB_P_VEL * delta;
-			game->player.pos[1] -= game->player.dir[0] * CUB_P_VEL * delta;
-		}
+		g->player.pos[0] -= right;
+		g->player.pos[1] -= up;
+	}
+	return (1);
+}
+
+static int	__cub_p_strf(t_game *g, float up, float right)
+{
+	g->player.pos[0] += up;
+	g->player.pos[1] -= right;
+	if (g->map->cell[(int) g->player.pos[1]]
+		[(int) g->player.pos[0]] == '1')
+	{
+		g->player.pos[0] -= up;
+		g->player.pos[1] += right;
 	}
 	return (1);
 }

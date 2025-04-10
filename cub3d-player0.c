@@ -6,7 +6,7 @@
 /*   By: joleksia <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/30 07:26:10 by joleksia          #+#    #+#             */
-/*   Updated: 2025/04/09 11:01:58 by joleksia         ###   ########.fr       */
+/*   Updated: 2025/04/10 11:04:38 by joleksia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,8 @@ int	cub_player(t_game *game)
 	game->player.plane[0] = 0.0f;
 	game->player.plane[1] = 3.14159 / 4.0f;
 	ft_memcpy(game->player.dir, (t_vec2){1.0f, 0.0f}, sizeof(t_vec2));
-	game->player.pos[0] = game->map->map_spawn[0];
-	game->player.pos[1] = game->map->map_spawn[1];
+	game->player.pos[0] = game->map->map_spawn[0] + 0.5f;
+	game->player.pos[1] = game->map->map_spawn[1] + 0.5f;
 	printf("info: player init\n");
 	return (1);
 }

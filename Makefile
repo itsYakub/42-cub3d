@@ -4,6 +4,7 @@ LFLAGS	= -lX11 -lXext -lz -lm
 SRC		= 	./cub3d.c			\
 			./cub3d-gl.c		\
 			./cub3d-math0.c		\
+			./cub3d-math1.c		\
 			./cub3d-player0.c	\
 			./cub3d-player1.c	\
 			./cub3d-input.c		\

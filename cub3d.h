@@ -6,7 +6,7 @@
 /*   By: joleksia <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 09:48:22 by joleksia          #+#    #+#             */
-/*   Updated: 2025/04/09 11:32:43 by joleksia         ###   ########.fr       */
+/*   Updated: 2025/04/10 10:35:21 by joleksia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,9 @@
 # endif
 # ifndef CUB_P_VEL
 #  define CUB_P_VEL 2.0f
+# endif
+# ifndef CUB_DDA_DISTANT_SHADOW_D
+#  define CUB_DDA_DISTANT_SHADOW_D 32.0f
 # endif
 # ifndef CUB_RED
 #  define CUB_RED 0xffd32734
@@ -149,66 +152,72 @@ typedef struct s_ray		t_ray;
 
 /* ./cub3d.c */
 
-int		cub_init(t_game *game);
-int		cub_run(t_game *game);
-int		cub_update(t_game *game);
-int		cub_quit(t_game *game);
+int				cub_init(t_game *game);
+int				cub_run(t_game *game);
+int				cub_update(t_game *game);
+int				cub_quit(t_game *game);
 
 /* ./cub3d-input.c */
 
-int		cub_input_down(int key, t_game *game);
-int		cub_input_up(int key, t_game *game);
-int		cub_key_down(t_game *game, int key);
-int		cub_key_up(t_game *game, int key);
+int				cub_input_down(int key, t_game *game);
+int				cub_input_up(int key, t_game *game);
+int				cub_key_down(t_game *game, int key);
+int				cub_key_up(t_game *game, int key);
 
 /* ./cub3d-gl.c */
 
-int		cub_getpix(t_game *game, int x, int y);
-int		cub_setpix(t_game *game, int x, int y, unsigned int color);
-int		cub_clear(t_game *game, unsigned int color);
-int		cub_clear_region(t_game *game, unsigned int color, const t_vec4i r);
-int		cub_display(t_game *game);
+int				cub_getpix(t_game *game, int x, int y);
+int				cub_setpix(t_game *game, int x, int y, unsigned int color);
+int				cub_clear(t_game *game, unsigned int color);
+int				cub_clear_region(t_game *game, unsigned int c, const t_vec4i r);
+int				cub_display(t_game *game);
 
-/* ./cub3d-math0.c */
+/* ./cub3d-math0.c ./cub3d-math1.c */
 
-int		cub_min(int a, int b);
-int		cub_max(int a, int b);
-int		cub_col_int(t_vec4i col);
+int				cub_min(int a, int b);
+int				cub_max(int a, int b);
+float			cub_maxf(float a, float b);
+int				cub_col_int(t_vec4i col);
+float			cub_dist(t_vec2 a, t_vec2 b);
+float			cub_disti(t_vec2 a, t_vec2i b);
+int				cub_col2pix(t_vec4i col);
+int				cub_pix2col(unsigned int pix, t_vec4i dst);
 
 /* ./cub3d-player0.c ./cub3d-player1.c */
 
-int		cub_player(t_game *game);
-int		cub_p_update(t_game *game);
-int		cub_p_render(t_game *game);
-int		cub_p_rotate(t_game *game, float delta);
-int		cub_p_move(t_game *game, float delta);
-int		cub_p_strafe(t_game *game, float delta);
+int				cub_player(t_game *game);
+int				cub_p_update(t_game *game);
+int				cub_p_render(t_game *game);
+int				cub_p_rotate(t_game *game, float delta);
+int				cub_p_move(t_game *game, float delta);
+int				cub_p_strafe(t_game *game, float delta);
 
 /* ./cub3d-minimap.c */
 
-int		cub_minimap(t_game *game, t_vec2i pos);
+int				cub_minimap(t_game *game, t_vec2i pos);
 
-/* ./cub3d-dda0.c */
+/* ./cub3d-dda0.c ./cub3d-dda1.c */
 
-int		cub_dda(t_game *game, int x, t_vec2i l);
-int		cub_dda_ray(t_game *game, t_ray *ray, float cam);
-int		cub_dda_perform(t_game *game, t_ray *ray);
-int		cub_dda_draw(t_game *game, t_ray *ray, t_texture t, t_vec2i l, int x);
-int		cub_dda_ns(t_ray *ray);
-int		cub_dda_we(t_ray *ray);
+int				cub_dda(t_game *game, int x, t_vec2i l);
+int				cub_dda_ray(t_game *game, t_ray *ray, float cam);
+int				cub_dda_perform(t_game *game, t_ray *ray);
+void			cub_dda_draw(t_game *game, t_ray *ray, t_texture t, t_vec3i i3);
+int				cub_dda_ns(t_ray *ray);
+int				cub_dda_we(t_ray *ray);
+unsigned int	cub_dda_dsh(t_game *game, t_ray *ray, unsigned int pix);
 
 /* ./cub3d-time.c */
-float	cub_deltatime(t_game *game);
-long	cub_gettime(void);
-int		cub_updatetime(t_game *game);
+float			cub_deltatime(t_game *game);
+long			cub_gettime(void);
+int				cub_updatetime(t_game *game);
 
 /* ./cub3d-assets.c */
-int		cub_ass_load(t_game *game);
-int		cub_ass_unload(t_game *game);
-int		cub_ass_gettex(t_game *game, t_texture *tex, int i);
+int				cub_ass_load(t_game *game);
+int				cub_ass_unload(t_game *game);
+int				cub_ass_gettex(t_game *game, t_texture *tex, int i);
 
 /* ./cub3d-texture0.c */
-int				cub_tex_load(t_game *game, t_texture *tex, const char * s);
+int				cub_tex_load(t_game *game, t_texture *tex, const char *s);
 int				cub_tex_unload(t_game *game, t_texture *tex);
 unsigned int	cub_tex_getpix(t_texture t, int x, int y);
 

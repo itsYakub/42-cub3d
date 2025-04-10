@@ -6,7 +6,7 @@
 /*   By: joleksia <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/30 06:27:09 by joleksia          #+#    #+#             */
-/*   Updated: 2025/04/03 11:04:49 by joleksia         ###   ########.fr       */
+/*   Updated: 2025/04/10 10:35:47 by joleksia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,13 @@ int	cub_min(int a, int b)
 }
 
 int	cub_max(int a, int b)
+{
+	if (a > b)
+		return (a);
+	return (b);
+}
+
+float	cub_maxf(float a, float b)
 {
 	if (a > b)
 		return (a);
