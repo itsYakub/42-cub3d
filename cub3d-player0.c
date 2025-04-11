@@ -6,11 +6,13 @@
 /*   By: joleksia <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/30 07:26:10 by joleksia          #+#    #+#             */
-/*   Updated: 2025/04/10 11:04:38 by joleksia         ###   ########.fr       */
+/*   Updated: 2025/04/11 07:27:43 by joleksia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
+
+static int	__cub_p_init_rotation(t_game *game, float r);
 
 int	cub_player(t_game *game)
 {
@@ -20,6 +22,7 @@ int	cub_player(t_game *game)
 	game->player.plane[0] = 0.0f;
 	game->player.plane[1] = 3.14159 / 4.0f;
 	ft_memcpy(game->player.dir, (t_vec2){1.0f, 0.0f}, sizeof(t_vec2));
+	__cub_p_init_rotation(game, 3.14f);
 	game->player.pos[0] = game->map->map_spawn[0] + 0.5f;
 	game->player.pos[1] = game->map->map_spawn[1] + 0.5f;
 	printf("info: player init\n");
@@ -48,5 +51,29 @@ int	cub_p_render(t_game *game)
 	x = -1;
 	while (++x < CUB_WIN_W)
 		cub_dda(game, x, line);
+	return (1);
+}
+
+static int	__cub_p_init_rotation(t_game *game, float r)
+{
+	t_vec2	dir;
+	t_vec2	plane;
+	
+	ft_memcpy(dir, game->player.dir, sizeof(t_vec2));
+	ft_memcpy(plane, game->player.plane, sizeof(t_vec2));
+	if (game->map->dir == DIR_NORTH)
+		r *= -0.5f;
+	else if (game->map->dir == DIR_SOUTH)
+		r *= 0.5f;
+	else if (game->map->dir == DIR_WEST)
+		r *= 1.0f;
+	else if (game->map->dir == DIR_EAST)
+		r *= 2.0f;
+	else
+		return (!printf("warn: invalid direction\n"));
+	game->player.dir[0] = dir[0] * cosf(r) - dir[1] * sinf(r);
+	game->player.dir[1] = dir[0] * sinf(r) + dir[1] * cosf(r);
+	game->player.plane[0] = plane[0] * cosf(r) - plane[1] * sinf(r);
+	game->player.plane[1] = plane[0] * sinf(r) + plane[1] * cosf(r);
 	return (1);
 }

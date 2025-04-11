@@ -9,8 +9,8 @@ renderer:
 - [X] render a 2D map at the corner of the screen;
 - [X] collision detection;
 - [X] proper movement;
-- [ ] make the more distant objects darker;
+- [X] make the more distant objects darker;
 
 player:
 - [ ] circular collision extending from the camera;
-- [ ] directional spawninig; 
+- [X] directional spawninig; 
