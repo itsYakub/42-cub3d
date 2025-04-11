@@ -1,0 +1,7 @@
+NO ./assets/crafting.xpm
+SO ./assets/cobblestone.xpm
+WE ./assets/oak-planks.xpm
+EA ./assets/grass.xpm
+
+F 64,64,64
+C 128,128,128
