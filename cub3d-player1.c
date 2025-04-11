@@ -6,7 +6,7 @@
 /*   By: joleksia <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/30 10:52:41 by joleksia          #+#    #+#             */
-/*   Updated: 2025/04/11 07:54:03 by joleksia         ###   ########.fr       */
+/*   Updated: 2025/04/11 10:10:19 by joleksia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,26 +65,42 @@ int	cub_p_strafe(t_game *game, float delta)
 
 static int	__cub_p_mov(t_game *g, float up, float right)
 {
-	g->player.pos[0] += right;
-	g->player.pos[1] += up;
+	t_vec2	_off;
+
+	if (right > 0.0f)
+		_off[0] = -CUB_P_COLL_S;
+	else	
+		_off[0] = CUB_P_COLL_S;
+	if (up> 0.0f)
+		_off[1] = -CUB_P_COLL_S;
+	else	
+		_off[1] = CUB_P_COLL_S;
+	if (g->map->cell[(int) (g->player.pos[1] + up - _off[1])]
+		[(int) g->player.pos[0]] != '1')
+		g->player.pos[1] += up;
 	if (g->map->cell[(int) g->player.pos[1]]
-		[(int) g->player.pos[0]] == '1')
-	{
-		g->player.pos[0] -= right;
-		g->player.pos[1] -= up;
-	}
+		[(int) (g->player.pos[0] + right - _off[0])] != '1')
+		g->player.pos[0] += right;
 	return (1);
 }
 
 static int	__cub_p_strf(t_game *g, float up, float right)
 {
-	g->player.pos[0] += up;
-	g->player.pos[1] -= right;
+	t_vec2	_off;
+
+	if (right > 0.0f)
+		_off[0] = -CUB_P_COLL_S;
+	else	
+		_off[0] = CUB_P_COLL_S;
+	if (up> 0.0f)
+		_off[1] = -CUB_P_COLL_S;
+	else	
+		_off[1] = CUB_P_COLL_S;
+	if (g->map->cell[(int) (g->player.pos[1] - right + _off[0])]
+		[(int) g->player.pos[0]] != '1')
+		g->player.pos[1] -= right;
 	if (g->map->cell[(int) g->player.pos[1]]
-		[(int) g->player.pos[0]] == '1')
-	{
-		g->player.pos[0] -= up;
-		g->player.pos[1] += right;
-	}
+		[(int) (g->player.pos[0] + up - _off[1])] != '1')
+		g->player.pos[0] += up;
 	return (1);
 }

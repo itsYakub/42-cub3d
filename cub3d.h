@@ -6,7 +6,7 @@
 /*   By: joleksia <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 09:48:22 by joleksia          #+#    #+#             */
-/*   Updated: 2025/04/11 09:12:36 by joleksia         ###   ########.fr       */
+/*   Updated: 2025/04/11 10:12:58 by joleksia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,11 @@
 # ifndef CUB_P_VEL
 #  define CUB_P_VEL 2.0f
 # endif
+# ifndef CUB_P_COLL_S
+#  define CUB_P_COLL_S 0.2f
+# endif
 # ifndef CUB_DDA_DISTANT_SHADOW_D
-#  define CUB_DDA_DISTANT_SHADOW_D 16.0f
+#  define CUB_DDA_DISTANT_SHADOW_D 32.0f
 # endif
 # ifndef CUB_RED
 #  define CUB_RED 0xffd32734
