@@ -1,7 +1,7 @@
-NO ./assets/north.xpm
-SO ./assets/south.xpm
-WE ./assets/west.xpm
-EA ./assets/east.xpm
+NO ./assets/purple_stone.xpm
+SO ./assets/red_brick.xpm
+WE ./assets/eagle.xpm
+EA ./assets/mossy.xpm
 F 220,100,0
 C 225,30,0
         1111111111111111111111111

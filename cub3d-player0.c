@@ -6,7 +6,7 @@
 /*   By: joleksia <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/30 07:26:10 by joleksia          #+#    #+#             */
-/*   Updated: 2025/04/11 07:27:43 by joleksia         ###   ########.fr       */
+/*   Updated: 2025/04/11 08:11:32 by joleksia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ static int	__cub_p_init_rotation(t_game *game, float r)
 {
 	t_vec2	dir;
 	t_vec2	plane;
-	
+
 	ft_memcpy(dir, game->player.dir, sizeof(t_vec2));
 	ft_memcpy(plane, game->player.plane, sizeof(t_vec2));
 	if (game->map->dir == DIR_NORTH)

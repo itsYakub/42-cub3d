@@ -6,7 +6,7 @@
 /*   By: joleksia <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 09:48:22 by joleksia          #+#    #+#             */
-/*   Updated: 2025/04/10 10:35:21 by joleksia         ###   ########.fr       */
+/*   Updated: 2025/04/11 09:12:36 by joleksia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@
 #  define CUB_P_VEL 2.0f
 # endif
 # ifndef CUB_DDA_DISTANT_SHADOW_D
-#  define CUB_DDA_DISTANT_SHADOW_D 32.0f
+#  define CUB_DDA_DISTANT_SHADOW_D 16.0f
 # endif
 # ifndef CUB_RED
 #  define CUB_RED 0xffd32734
@@ -75,50 +75,50 @@
  *		Typedefs
  * */
 
-struct					s_texture;
-struct					s_game;
-struct					s_player;
-struct					s_ray;
+struct						s_texture;
+struct						s_game;
+struct						s_player;
+struct						s_ray;
 
 struct s_texture
 {
-	t_img	*img;
-	char	*dat;
-	int		w;
-	int		h;
-	int		b;
-	int		s;
-	int		e;
+	t_img					*img;
+	char					*dat;
+	int						w;
+	int						h;
+	int						b;
+	int						s;
+	int						e;
 };
 
 struct s_player
 {
-	struct s_game	*game;
-	t_vec2			pos;
-	t_vec2			dir;
-	t_vec2			plane;
+	struct s_game			*game;
+	t_vec2					pos;
+	t_vec2					dir;
+	t_vec2					plane;
 };
 
 struct s_game
 {
-	struct s_player	player;
-	unsigned int	input[65536];
-	t_map			*map;
+	struct s_player			player;
+	unsigned int			input[65536];
+	t_map					*map;
 	struct
 	{
-		t_xvar		*mlx;
-		t_win_list	*win;
-		t_img		*img;
-		char		*fb;
-		int			fb_bits;
-		int			fb_stride;
-		int			fb_endian;
+		t_xvar				*mlx;
+		t_win_list			*win;
+		t_img				*img;
+		char				*fb;
+		int					fb_bits;
+		int					fb_stride;
+		int					fb_endian;
 	}	s_win;
 	struct
 	{
-		time_t		cur;
-		time_t		prev;
-		float		dt;
+		time_t				cur;
+		time_t				prev;
+		float				dt;
 	}	s_time;
 	struct
 	{
@@ -131,14 +131,14 @@ struct s_game
 
 struct s_ray
 {
-	t_vec2i	pos;
-	t_vec2	dir;
-	t_vec2	delta;
-	t_vec2	side;
-	t_vec2	step;
-	int		hit;
-	int		o;
-	float	dperp;
+	t_vec2i					pos;
+	t_vec2					dir;
+	t_vec2					delta;
+	t_vec2					side;
+	t_vec2					step;
+	int						hit;
+	int						o;
+	float					dperp;
 };
 
 typedef struct s_texture	t_texture;
