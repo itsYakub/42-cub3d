@@ -14,4 +14,8 @@ cub3d
 
 *.swp
 *.swo
-./vscode
+.vscode/
+
+# other
+
+minilibx/

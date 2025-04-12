@@ -51,7 +51,7 @@ fclean: clean
 	rm -f $(NAME)
 	make -C ./libft fclean
 	make -C ./parser fclean
-	make -C ./minilibx fclean
+	make -C ./minilibx clean
 
 .PHONY: release debug
 
@@ -60,9 +60,3 @@ release: all
 
 debug: CFLAGS += -DDEBUG -ggdb -g3 -O0
 debug: all
-
-.PHONY: gitmodules
-
-gitmodules: .gitmodules
-	git submodule update --init
-	git submodule foreach git pull origin HEAD
