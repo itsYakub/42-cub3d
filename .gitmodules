@@ -1,9 +1,0 @@
-[submodule "parser"]
-	path = parser
-	url = git@github.com:itsYakub/42_cub3d_parser.git
-[submodule "minilibx"]
-	path = minilibx
-	url = git@github.com:itsYakub/minilibx-linux.git
-[submodule "libft"]
-	path = libft
-	url = git@github.com:itsYakub/42_libft.git
