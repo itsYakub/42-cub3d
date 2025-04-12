@@ -6,7 +6,7 @@
 /*   By: joleksia <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 09:58:57 by joleksia          #+#    #+#             */
-/*   Updated: 2025/03/26 09:46:24 by joleksia         ###   ########.fr       */
+/*   Updated: 2025/04/12 08:21:34 by joleksia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,9 @@ int	par_getcol(char *s, t_vec3i dst)
 			return (0);
 		while (ft_isdigit(*s))
 			s++;
-		if (i <= 2 && *s != ',')
+		if (!*s)
+			return (1);
+		else if (i <= 2 && *s != ',')
 			return (0);
 		s++;
 	}

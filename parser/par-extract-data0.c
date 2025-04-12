@@ -6,11 +6,13 @@
 /*   By: joleksia <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 09:01:51 by joleksia          #+#    #+#             */
-/*   Updated: 2025/03/28 08:59:56 by joleksia         ###   ########.fr       */
+/*   Updated: 2025/04/12 08:42:10 by joleksia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser.h"
+
+void	*__cub_free_s(void *ptr);
 
 int	par_extract(t_dat *dat, const char *s)
 {
@@ -25,10 +27,10 @@ int	par_extract(t_dat *dat, const char *s)
 	{
 		if (!par_process_line(dat, current_line))
 		{
-			free(current_line);
+			current_line = __cub_free_s(current_line);
 			return (!par_dat_unload(dat));
 		}
-		free(current_line);
+		current_line = __cub_free_s(current_line);
 		if (!*s)
 			break ;
 		current_line = par_sgetline(s);
@@ -36,6 +38,7 @@ int	par_extract(t_dat *dat, const char *s)
 			return (!par_dat_unload(dat));
 		s += ft_strlen(current_line) + 1;
 	}
+	current_line = __cub_free_s(current_line);
 	return (1);
 }
 
@@ -56,4 +59,12 @@ int	par_process_line(t_dat *dat, char *line)
 	else
 		return (0);
 	return (1);
+}
+
+void	*__cub_free_s(void *ptr)
+{
+	if (!ptr)
+		return (0);
+	free(ptr);
+	return (0);
 }
