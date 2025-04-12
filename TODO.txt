@@ -12,5 +12,5 @@ renderer:
 - [X] make the more distant objects darker;
 
 player:
-- [ ] circular collision extending from the camera;
+- [X] circular collision extending from the camera;
 - [X] directional spawninig; 
