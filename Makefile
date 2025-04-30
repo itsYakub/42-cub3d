@@ -20,7 +20,16 @@ MLX		= ./minilibx/libmlx.a
 PARSER	= ./parser/libpar.a
 NAME	= ./cub3d
 
-all: $(NAME)
+MINILIBX_REPO = https://github.com/42Paris/minilibx-linux.git
+MINILIBX_DIR  = ./minilibx
+
+all: $(MINILIBX_DIR) $(NAME)
+
+$(MINILIBX_DIR):
+	@if [ ! -d "$(MINILIBX_DIR)" ]; then \
+		echo "Cloning minilibx..."; \
+		git clone $(MINILIBX_REPO) $(MINILIBX_DIR); \
+	fi
 
 $(NAME) : $(OBJ) $(MLX) $(PARSER) $(LIBFT)
 	$(CC) $(CFLAGS) $^ -o $@ $(LFLAGS)
@@ -31,8 +40,8 @@ $(OBJ) : %.o : %.c
 $(LIBFT):
 	make -C ./libft
 
-$(MLX):
-	make -C ./minilibx
+$(MLX): $(MINILIBX_DIR)
+	make -C $(MINILIBX_DIR)
 
 $(PARSER):
 	make -C ./parser
@@ -45,13 +54,13 @@ clean:
 	rm -f $(OBJ)
 	make -C ./libft clean
 	make -C ./parser clean
-	make -C ./minilibx clean
+	make -C $(MINILIBX_DIR) clean
 
 fclean: clean
 	rm -f $(NAME)
 	make -C ./libft fclean
 	make -C ./parser fclean
-	make -C ./minilibx clean
+	rm -rf $(MINILIBX_DIR)
 
 .PHONY: release debug
 
